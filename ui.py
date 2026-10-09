@@ -3,6 +3,28 @@ from agent import build_team
 
 # 1. Web Page Setup
 st.set_page_config(page_title="Financial Agent UI", page_icon="📈", layout="centered")
+
+# --- SIDEBAR NUDGE ---
+with st.sidebar:
+    st.header("💡 Need Inspiration?")
+    st.write("Here are some of the most popular stocks to research:")
+    st.markdown("""
+    * **AAPL** - Apple Inc.
+    * **MSFT** - Microsoft
+    * **NVDA** - NVIDIA
+    * **TSLA** - Tesla
+    * **AMZN** - Amazon
+    * **META** - Meta Platforms
+    * **GOOG** - Alphabet (Google)
+    * **BRK-B** - Berkshire Hathaway
+    * **JPM** - JPMorgan Chase
+    * **V** - Visa
+    * **WMT** - Walmart
+    * **JNJ** - Johnson & Johnson
+    * **NFLX** - Netflix
+    """)
+    st.info("Type any of these tickers into the chat box to get started!")
+
 st.title("📈 Multi-Agent Financial Analyst")
 st.write("Enter a stock ticker below. The **Researcher Agent** will fetch real-time data, and the **Analyst Agent** will write a report.")
 
