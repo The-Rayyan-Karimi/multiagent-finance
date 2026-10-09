@@ -1,5 +1,7 @@
 import streamlit as st
+import pandas as pd
 from agent import build_team
+from tools.finance_tools import get_historical_prices
 
 # 1. Web Page Setup
 st.set_page_config(page_title="Financial Agent UI", page_icon="📈", layout="centered")
@@ -65,15 +67,35 @@ if user_input := st.chat_input("Enter a ticker (e.g., AAPL, TSLA, NVDA)..."):
             
             # Extract the final report
             report = final_state['final_report']
-            
-            # CRITICAL BUG FIX: 
-            # Streamlit interprets text between two '$' signs as LaTeX Math.
-            # So a sentence like "$100 to $200" turns into an ugly math formula!
-            # We fix this by escaping the dollar signs before rendering.
             safe_report = report.replace("$", r"\$")
             
             # Show the report
             st.markdown(safe_report)
+            
+            # --- CHARTS ---
+            st.subheader("📊 Price History")
+            
+            # Fetch data using our existing tool!
+            ticker = user_input.upper()
+            hist_1mo = get_historical_prices(ticker, "1mo")
+            hist_1y = get_historical_prices(ticker, "1y")
+            hist_3y = get_historical_prices(ticker, "3y")
+            
+            # Create 3 columns in the UI
+            col1, col2, col3 = st.columns(3)
+            
+            with col1:
+                st.caption("1 Month")
+                if "error" not in hist_1mo:
+                    st.line_chart(pd.Series(hist_1mo["closing_prices"]))
+            with col2:
+                st.caption("1 Year")
+                if "error" not in hist_1y:
+                    st.line_chart(pd.Series(hist_1y["closing_prices"]))
+            with col3:
+                st.caption("3 Years")
+                if "error" not in hist_3y:
+                    st.line_chart(pd.Series(hist_3y["closing_prices"]))
             
     # Save the agent's safe report to the UI memory
     st.session_state.chat_history.append({"role": "assistant", "content": safe_report})
