@@ -3,3 +3,4 @@ pydantic
 duckduckgo-search
 openai
 langgraph
+streamlit

@@ -38,11 +38,14 @@ def analyst_agent(state: AgentState):
     Include:
     1. The company name and current price.
     2. A brief analysis of the recent historical price trend.
-    Keep it professional and under 2 paragraphs.
+    
+    CRITICAL RULES:
+    - Use clean Markdown formatting (bolding, bullet points).
+    - DO NOT include any advertisements, promotional links, or watermarks.
+    - Output ONLY the professional financial summary, nothing else.
     """
     
     try:
-        # We use a reliable free AI endpoint (Pollinations) that requires no packages!
         prompt_encoded = urllib.parse.quote(prompt)
         url = f"https://text.pollinations.ai/{prompt_encoded}"
         
@@ -53,7 +56,8 @@ def analyst_agent(state: AgentState):
     except Exception as e:
         report_text = f"The free AI endpoint failed. Error: {str(e)}"
     
-    return {"final_report": f"\n=== AI FINANCIAL REPORT: {state['ticker']} ===\n{report_text}\n======================================"}
+    # We removed the ugly '=== AI REPORT ===' formatting!
+    return {"final_report": report_text}
 
 
 # ==========================================
@@ -85,7 +89,5 @@ if __name__ == "__main__":
         "final_report": ""
     }
     
-    print("🚀 Starting Financial Multi-Agent System...\n")
     final_state = app.invoke(initial_request)
-    
     print("\n" + final_state['final_report'])
