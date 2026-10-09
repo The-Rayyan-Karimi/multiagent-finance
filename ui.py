@@ -28,6 +28,25 @@ with st.sidebar:
     st.info("Type any of these tickers into the chat box to get started!")
 
 st.title("📈 Multi-Agent Financial Analyst")
+
+# --- INTRO SECTION ---
+with st.expander("👋 About This Project & Architecture (Play Audio)", expanded=True):
+    st.write("**Hi, I'm Rayyan!** Listen to a quick breakdown of how I built this production-ready AI architecture:")
+    
+    try:
+        st.audio("intro.mp3")
+    except Exception:
+        st.caption("(Audio file not found yet. Make sure intro.mp3 is in the folder!)")
+        
+    st.markdown("""
+    **Project Highlights:**
+    * **Multi-Agent Architecture:** Built using LangGraph to route tasks safely between specialized agents.
+    * **State Management:** Uses strictly-typed state schemas to manage agent memory deterministically.
+    * **Tool Execution:** A *Researcher Agent* securely fetches market data via Python APIs (yfinance).
+    * **LLM Synthesis:** An *Analyst Agent* reads the state and synthesizes the raw numbers into an executive summary.
+    """)
+
+st.write("---")
 st.write("Enter a stock ticker below. The **Researcher Agent** will fetch real-time data, and the **Analyst Agent** will write a report.")
 
 # 2. Memory for the UI (so chat doesn't disappear when you type again)
