@@ -41,9 +41,17 @@ if user_input := st.chat_input("Enter a ticker (e.g., AAPL, TSLA, NVDA)..."):
             # Run the system
             final_state = app.invoke(initial_state)
             
-            # Extract the final report and show it
+            # Extract the final report
             report = final_state['final_report']
-            st.markdown(report)
             
-    # Save the agent's report to the UI memory
-    st.session_state.chat_history.append({"role": "assistant", "content": report})
+            # CRITICAL BUG FIX: 
+            # Streamlit interprets text between two '$' signs as LaTeX Math.
+            # So a sentence like "$100 to $200" turns into an ugly math formula!
+            # We fix this by escaping the dollar signs before rendering.
+            safe_report = report.replace("$", r"\$")
+            
+            # Show the report
+            st.markdown(safe_report)
+            
+    # Save the agent's safe report to the UI memory
+    st.session_state.chat_history.append({"role": "assistant", "content": safe_report})
