@@ -4,7 +4,7 @@ from agent import build_team
 from tools.finance_tools import get_historical_prices
 
 # 1. Web Page Setup
-st.set_page_config(page_title="Financial Agent UI", page_icon="📈", layout="centered")
+st.set_page_config(page_title="Financial Agent UI", page_icon="📈", layout="wide")
 
 # --- SIDEBAR NUDGE ---
 with st.sidebar:
